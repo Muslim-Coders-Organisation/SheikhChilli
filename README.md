@@ -5,6 +5,8 @@ The Discord server is open to everyone, other than muslims as well.
 
 This specific version of Sheikh Chilli is a rewritten version of [Sheikh-Bot](https://github.com/Muslim-Coders-Organisation/Sheikh-Bot)
 
+Also, do not open the quran.ts or quran_data.ts file located in `data/`. They are very large files. They will crash your IDE.
+
 ---
 
 # How to run
