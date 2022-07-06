@@ -1,0 +1,6 @@
+conf.ts
+/node_modules
+/.vs
+/.vscode
+/.idea
+/.obsidian
