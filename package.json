@@ -1,0 +1,11 @@
+{
+  "name": "sheikhchilliqueries",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ts-node build.ts"
+  },
+  "author": "",
+  "license": "ISC"
+}
