@@ -1,0 +1,1 @@
+CREATE TABLE surah (id INT NOT NULL,nameArabic TEXT NOT NULL,nameEnglish TEXT NOT NULL,nameTransliteration TEXT NOT NULL,verseCount INT NOT NULL);

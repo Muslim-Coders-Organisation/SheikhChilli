@@ -1,0 +1,1 @@
+CREATE TABLE quran (surah INT NOT NULL,verse INT NOT NULL,verseContentEnglish TEXT NOT NULL,verseContentArabic TEXT NOT NULL,verseContentTransliteration TEXT NOT NULL);
