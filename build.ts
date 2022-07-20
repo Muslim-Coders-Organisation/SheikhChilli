@@ -2,7 +2,7 @@ import { writeFileSync } from "fs";
 import { chapterMetadata } from "./source/Chapterdata";
 import { data } from "./source/quranEnTranslit";
 
-const CHAPTER_METADATA_TABLE_NAME = "chapter_metadata";
+const CHAPTER_METADATA_TABLE_NAME = "surah";
 const QURAN_TABLE_NAME = "quran";
 
 const QURAN_METADATA_TABLE_CREATION_QUERY = `CREATE TABLE quran (surah INT NOT NULL,verse INT NOT NULL,verseContentEnglish TEXT NOT NULL,verseContentArabic TEXT NOT NULL,verseContentTransliteration TEXT NOT NULL);`
