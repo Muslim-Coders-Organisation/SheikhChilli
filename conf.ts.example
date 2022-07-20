@@ -4,15 +4,14 @@ var config = {
     "client_identifier": "---"
   },
   
-// Keep this here! (future features)
-//  "database": {
-//    "_comment": "This is always a MySQL database!",
-//    "username": "dev",
-//    "password": "myPassword",
-//    "host": "localhost",
-//    "port": "3306",
-//    "database": "SheikhChilli"
-//  }
+  "database": {
+    "_comment": "You should use a MySQL database for this. I made this using Vitess in a docker container.",
+    "username": "dev",
+    "password": "myPassword",
+    "host": "localhost",
+    "port": 3306,
+    "database": "SheikhChilli"
+  }
 }
 
 export default config;
