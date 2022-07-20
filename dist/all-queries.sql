@@ -35,7 +35,7 @@ INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount)
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (35, "فاطر", "Originator", "Fatir", 45);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (36, "يس", "Ya Sin", "Ya-Sin", 83);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (37, "الصافات", "Those who set the Ranks", "As-Saffat", 182);
-INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (38, "ص", "The Letter "Saad"", "Sad", 88);
+INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (38, "ص", "The Letter ""Saad""", "Sad", 88);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (39, "الزمر", "The Troops", "Az-Zumar", 75);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (40, "غافر", "The Forgiver", "Ghafir", 85);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (41, "فصلت", "Explained in Detail", "Fussilat", 54);
@@ -47,7 +47,7 @@ INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount)
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (47, "محمد", "Muhammad", "Muhammad", 38);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (48, "الفتح", "The Victory", "Al-Fath", 29);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (49, "الحجرات", "The Rooms", "Al-Hujurat", 18);
-INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (50, "ق", "The Letter "Qaf"", "Qaf", 45);
+INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (50, "ق", "The Letter ""Qaf""", "Qaf", 45);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (51, "الذاريات", "The Winnowing Winds", "Adh-Dhariyat", 60);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (52, "الطور", "The Mount", "At-Tur", 49);
 INSERT INTO surah (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (53, "النجم", "The Star", "An-Najm", 62);

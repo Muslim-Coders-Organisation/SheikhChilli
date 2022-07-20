@@ -14,7 +14,7 @@ const QuranQueries: string[] = []
 
 
 chapterMetadata.data.forEach(chapter => {
-  const QUERY = `INSERT INTO ${CHAPTER_METADATA_TABLE_NAME} (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (${chapter.id}, "${chapter.arabicName}", "${chapter.name}", "${chapter.transliteration}", ${chapter.totalVerses});`;
+  const QUERY = `INSERT INTO ${CHAPTER_METADATA_TABLE_NAME} (id, nameArabic, nameEnglish, nameTransliteration, verseCount) VALUES (${chapter.id}, "${chapter.arabicName}", "${chapter.name.replace(/"/g, '""')}", "${chapter.transliteration}", ${chapter.totalVerses});`;
 
   ChapterMetadataQueries.push(QUERY)
   AllQueries.push(QUERY)
