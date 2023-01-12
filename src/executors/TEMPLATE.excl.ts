@@ -4,7 +4,7 @@ import Command from "../classes/Command";
 new Command(
     "command name",
     "description",
-    "MEMBER", // Permission (MEMBER, ADMIN, or AUTHOR)
+    "MEMBER", // Permission (MEMBER, ADMIN, or AUTHOR), Unused.
     command, // function to run (make sure to mention the function and not call the function)
     __filename, // keep this as it is
     ["av"] // aliases (can be left out) (aliases wont work unless you register them as an individual slash cmd)
