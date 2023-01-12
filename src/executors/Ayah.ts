@@ -1,111 +1,84 @@
 import { BaseGuildTextChannel, CommandInteraction, Interaction, Message, MessageAttachment, MessageEmbed, MessagePayload, SnowflakeUtil, TextBasedChannelMixin, TextChannel } from "discord.js";
 import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs";
 import Command from "../classes/Command";
-import QuranUtils from "../database/IndirectUtils";
-import { getDatabase } from "../init";
 import { getRandomColorHex } from "../utils/hexRandomizer";
+import { getChapterMetadata } from "../../data/quran/SurahMetadata";
+import { getArabicVerse, getArabicVersesInChapter, getTranslatedVersesInChapter } from "../QuranAPIWrapper/Functions/Verses/verses";
+import { ChapterNamesToNumberMap, ChapterNumbers } from "../QuranAPIWrapper/types/chapters/Chapters";
 
 new Command("ayah", "Returns an ayah or a range of ayat from the Quran", "MEMBER", command, __filename, ["quran", "ayat"])
 async function command(i: CommandInteraction) {
-    const qutils = new QuranUtils(getDatabase())
-
     if (i.options.getNumber("chapter") == null) return;
     const surah: number = i.options.getNumber("chapter") || 1;
     const verse: number = i.options.getNumber("verse") || 1;
-    const endVerse: number | null = i.options.getNumber("end");
-    const includeTransliteration: boolean | null = i.options.getBoolean("include_transliteration")
-    let verses: string[][] | null;
-    if (endVerse != null) verses = await rangeVerse(surah, verse, endVerse, includeTransliteration || false);
-    else verses = await singularVerse(surah, verse, includeTransliteration || false);
-
-    let message: string;
-
-    if (verses == null) {
-        message = "Error while getting verse " + verse + " from chapter " + surah + ". Maybe it doesn't exist?"
-        let e = new MessageEmbed()
-            .setTitle("Error")
-            .setDescription(message)
-        i.reply({ embeds: [e] })
-        return;
-    } else {
-        message = ""
-        if (includeTransliteration) {
-            for (let i = 0; i != verses.length; i++) {
-                message = message + verses[i][1] + "\n " + verses[i][2] + "\n_" + verses[i][3] + "_\n\n"
-            }
-        } else {
-            for (let i = 0; i != verses.length; i++) {
-                message = message + verses[i][1] + "\n " + verses[i][2] + "\n\n"
-            }
-        }
-
-    }
-
-    const SurahMetadata = await qutils.getSurahMetadata(surah)
-    const QuranVerses = await qutils.getSurahVerses(surah)
-
-    if (message.length < 4096) {
-        message = ">>> " + message
-        let e = new MessageEmbed()
-            .setColor(getRandomColorHex())
-            .setTitle(SurahMetadata.nameEnglish + " - " + SurahMetadata.nameTransliteration)
-        if (endVerse != null) e.setDescription("(" + verse + " to " + endVerse + ") \n\n" + message)
-        else e.setDescription("(" + verse + ")" + "\n\n" + message)
-        i.reply({ embeds: [e] })
-    } else {
-        if (!existsSync(__dirname + "/tmp")) await mkdirSync(__dirname + "/tmp")
-        let fileName = __dirname + "/tmp/" + i.id + ".txt"
-        await writeFileSync(fileName, SurahMetadata.nameEnglish + " - " + SurahMetadata.nameTransliteration + "\n" + "(" + verse + " to " + endVerse + ") \n\n" + message)
-        await i.reply({
-            files: [fileName]
+    let endVerse: number | null = i.options.getNumber("end");
+    // Check if the surah/verse are valid
+    if (surah >= 115 || surah <= 0) {
+        i.reply({
+            ephemeral: true,
+            content: "Surah is not within the valid range (1-114)"
         })
-        await unlinkSync(fileName)
     }
-}
 
-async function singularVerse(s: number, v: number, tr: boolean): Promise<RetrievalReturnValue> {
-    const qutils = new QuranUtils(getDatabase())
-    const SurahMetadata = await qutils.getSurahMetadata(s)
-    const QuranVerses = await qutils.getSurahVersesRange(s, v, v)
-    if (s >= 115 || s <= 0) return null;
-    if (SurahMetadata.verseCount < v) return null;
-    if (!tr) return [[v.toString(), QuranVerses.verses[0].verseContentArabic, QuranVerses.verses[0].verseContentEnglish]]
-    else return [[v.toString(), QuranVerses.verses[0].verseContentArabic, QuranVerses.verses[0].verseContentEnglish, QuranVerses.verses[0].verseContentTransliteration]]
-}
+    const SurahInfo = getChapterMetadata(surah)
+    if (verse <= 0 || verse >= SurahInfo.totalVerses + 1) {
+        i.reply({
+            ephemeral: true,
+            content: "The verse is not a valid number for this surah. The surah `" + SurahInfo.name + "` has `" + SurahInfo.totalVerses + "` verses"
+        })
+    }
 
-async function rangeVerse(s: number, v: number, ve: number, tr: boolean): Promise<RetrievalReturnValue> {
-    const qutils = new QuranUtils(getDatabase())
-    const SurahMetadata = await qutils.getSurahMetadata(s)
-    const QuranVerses = await qutils.getSurahVersesRange(s, v, ve)
+    if (endVerse != null) {
+        if (endVerse <= 0 || endVerse >= SurahInfo.totalVerses + 1) {
+            endVerse = SurahInfo.totalVerses
+        }
 
-    if (s >= 115 || s <= 0) return null;
-    if (v > ve) return null;
-
-    if (SurahMetadata.verseCount < ve) ve = SurahMetadata.verseCount;
-    let returnValue = []
-    for (let i = v - 1; i != ve; i++) {
-        if (!tr) {
-            returnValue.push(
-                [
-                    i.toString(),
-                    QuranVerses.verses[i].verseContentArabic,
-                    QuranVerses.verses[i].verseContentEnglish
-                ]
-            )
-        } else {
-            returnValue.push(
-                [
-                    i.toString(),
-                    QuranVerses.verses[i].verseContentArabic,
-                    QuranVerses.verses[i].verseContentTransliteration,
-                    QuranVerses.verses[i].verseContentEnglish
-                ]
-            )
+        if (endVerse < verse) {
+            i.reply({
+                ephemeral: true,
+                content: "The end of the verse range is smaller than the starting verse. The surah `" + SurahInfo.name + "` has `" + SurahInfo.totalVerses + "` verses"
+            })
         }
     }
 
+    i.deferReply();
 
-    return returnValue;
+    const ArabicVerseContent = await getArabicVersesInChapter(surah as ChapterNumbers, "Uthmani")
+    const EnglishVerseContent = await getTranslatedVersesInChapter(surah as ChapterNumbers, "Saheeh International")
+
+    const embed = new MessageEmbed()
+        .setTitle(SurahInfo.name + " - " + SurahInfo.arabicName)
+
+    let content = "";
+    for (let i = (verse - 1); i != (endVerse == undefined ? verse : endVerse); i++) {
+        content += `${surah + ":" + (i + 1)}\n---------\n${ArabicVerseContent[i].text}\n${EnglishVerseContent[i].text}\n\n`
+    }
+
+    let fileName = __dirname + "/tmp/" + i.id + ".txt"
+    if (content.length > 4096) {
+        if (!existsSync(__dirname + "/tmp")) await mkdirSync(__dirname + "/tmp")
+        await writeFileSync(fileName, content)
+        embed.setDescription("Verse" + (endVerse == undefined ? (" `" + verse + "`") : ("s `" + verse + "-" + endVerse + "`")) + "of `" + SurahInfo.transliteration + "/" + SurahInfo.name + "`")
+    } else {
+        embed.setDescription("Verse" + (endVerse == undefined ? (" `" + verse + "`") : ("s `" + verse + "-" + endVerse + "`")) + "of `" + SurahInfo.transliteration + "/" + SurahInfo.name + "`\n\n```" + content + "```")
+    }
+    await new Promise(n => setTimeout(n, 500))
+
+    try {
+        if (content.length > 4096) {
+            await i.editReply({
+                embeds: [
+                    embed
+                ],
+                files: [fileName]
+            })
+            unlinkSync(fileName)
+        } else {
+            i.editReply({
+                embeds: [
+                    embed
+                ],
+            })
+        }
+    } catch (e) { }
 }
-
-type RetrievalReturnValue = string[][] | null;
