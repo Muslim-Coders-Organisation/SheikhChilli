@@ -62,7 +62,6 @@ async function command(i: CommandInteraction) {
     } else {
         embed.setDescription("Verse" + (endVerse == undefined ? (" `" + verse + "`") : ("s `" + verse + "-" + endVerse + "`")) + "of `" + SurahInfo.transliteration + "/" + SurahInfo.name + "`\n\n```" + content + "```")
     }
-
     await new Promise(n => setTimeout(n, 500))
 
     try {
