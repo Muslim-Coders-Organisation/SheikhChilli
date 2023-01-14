@@ -51,7 +51,13 @@ function removeSchedule(id: string): boolean {
     let schedules = getAllSchedules()
     let schedule = getSchedule(id)
     if (schedule == undefined) return false;
-    schedules.splice(schedules.indexOf(schedule), 1)
+
+    schedules.forEach((e, i) => {
+        if (e.id == id) {
+            schedules.splice(i, 1)
+        }
+    })
+
     writeFileSync(SCHEDULE_FILENAME, JSON.stringify(schedules))
     return true;
 }
