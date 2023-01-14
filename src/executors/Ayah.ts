@@ -26,6 +26,7 @@ async function command(i: CommandInteraction) {
             ephemeral: true,
             content: "The verse is not a valid number for this surah. The surah `" + SurahInfo.name + "` has `" + SurahInfo.totalVerses + "` verses"
         })
+        return;
     }
 
     if (endVerse != null) {
@@ -38,6 +39,7 @@ async function command(i: CommandInteraction) {
                 ephemeral: true,
                 content: "The end of the verse range is smaller than the starting verse. The surah `" + SurahInfo.name + "` has `" + SurahInfo.totalVerses + "` verses"
             })
+            return;
         }
     }
 
