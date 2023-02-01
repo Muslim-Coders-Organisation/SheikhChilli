@@ -77,24 +77,9 @@ There are 6 parameters
 
 ---
 
-## conf.ts Template
+## .env Template
 
-```ts
-var config = {
-  "discord": {
-    "token": "---",
-    "client_identifier": "---"
-  },
-
-  "database": {
-    "_comment": "This is always a MySQL database!",
-    "username": "dev",
-    "password": "myPassword",
-    "host": "localhost",
-    "port": "3306",
-    "database": "SheikhChilli"
-  }
-}
-
-export default config;
+```env
+BOT_TOKEN=your-discord-bot-token
+CLIENT_ID=your-discord-client-id
 ```

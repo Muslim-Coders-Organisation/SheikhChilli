@@ -20,6 +20,7 @@
     "chalk": "^4.1.2",
     "discord-api-types": "^0.35.0",
     "discord.js": "^13.8.1",
+    "dotenv": "^16.0.3",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
     "nanoid": "^3.0.0",

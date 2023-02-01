@@ -1,5 +1,4 @@
 import { CommandInteraction, Interaction } from "discord.js";
-import config from "../../conf";
 import Command, { CommandClassInstances } from "../classes/Command";
 
 async function handle(i: Interaction) {

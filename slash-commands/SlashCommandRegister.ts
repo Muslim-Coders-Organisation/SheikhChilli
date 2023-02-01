@@ -1,7 +1,6 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 import log from '../src/utils/logger';
-import config from '../conf'
 const fs = require('node:fs');
 
 const commands: any[] = [];
@@ -20,14 +19,14 @@ for (let file of aliasFiles) {
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(config.discord.token);
+const rest = new REST({ version: '9' }).setToken(process.env["BOT_TOKEN"]);
 
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
 
 		await rest.put(
-			Routes.applicationCommands(config.discord.client_identifier),
+			Routes.applicationCommands(process.env["CLIENT_ID"]),
 			{ body: commands },
 		);
 
