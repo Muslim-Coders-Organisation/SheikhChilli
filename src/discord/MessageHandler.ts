@@ -1,5 +1,4 @@
 import { CommandInteraction, Interaction, Message } from "discord.js";
-import config from "../../conf";
 import { shortenings } from "../../data/shortenings/shortenings";
 import Command, { CommandClassInstances } from "../classes/Command";
 
